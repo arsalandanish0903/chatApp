@@ -1,11 +1,11 @@
-import axios from "axios"
+import axios from "axios";
 
-const DB_URI = import.meta.env.VITE_DB_URI
+const DB_URL = import.meta.env.VITE_DB_URI;
+
 export const axiosInstance = axios.create({
-    baseURL: DB_URI,
-    withCredentials: true,
-    headers: {
-        "Content-Type": "application/json",
-        timeout: 1000
-    },
-})
+  baseURL: DB_URL,
+  withCredentials: true,
+  headers: {
+    ContentType: "application/json",
+  },
+});

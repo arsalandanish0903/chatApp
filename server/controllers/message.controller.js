@@ -8,7 +8,6 @@ export const sendMessage = asyncHandler(async (req, res, next) => {
     const senderId = req.user._id;
     const receiverId = req.params.receiverId;
     const message = req.body.message;
-    console.log(senderId, receiverId, message);
     
 
     // console.log(senderId, receiverId, message);
@@ -50,7 +49,6 @@ export const sendMessage = asyncHandler(async (req, res, next) => {
 export const getMessages = asyncHandler(async (req, res, next) => {
     const myId = req.user._id;
     const otherParticipantsId = req.params.otherParticipantsId;
-    console.log(myId);
     
 
     if (!myId || !otherParticipantsId) {

@@ -11,7 +11,6 @@ export const loginUserThunk = createAsyncThunk("user/login", async ({ userName, 
         toast.success("Login Successful!!")
         return response.data
     } catch (error) {
-        // console.log(error?.response?.data?.errMessage);
         const errorOutput = error?.response?.data?.errMessage
         toast.error(errorOutput)
         return rejectWithValue(errorOutput)
@@ -49,14 +48,14 @@ export const logoutUserThunk = createAsyncThunk(
 );
 export const getProfileUserThunk = createAsyncThunk("user/get-profile", async (_, { rejectWithValue }) => {
     try {
-        const response = await axiosInstance.get("/user/get-profile")
-        return response.data
+        const response = await axiosInstance.get("/user/get-profile");
+        return response.data;
     } catch (error) {
-        const errorOutput = error?.response?.data?.errMessage
-        toast.error(errorOutput)
-        return rejectWithValue(errorOutput)
+        const errorOutput = error?.response?.data?.errMessage || "Something went wrong";
+        toast.error(errorOutput);
+        return rejectWithValue(errorOutput);
     }
-})
+});
 export const getOtherUserThunk = createAsyncThunk("user/getOtherUser", async (_, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.get("/user/get-otheruser")

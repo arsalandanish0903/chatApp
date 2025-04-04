@@ -26,7 +26,7 @@ function Home() {
       dispatch(setNewMessage(newMessage));
     });
     return () => {
-      socket.close();
+      socket.disconnect();
     };
   }, [socket]);
   return (

@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import Home from './Pages/Home/Home'
-import Login  from './Pages/Authentication/Login/Login'
-import Signup from './Pages/Authentication/Signup/Signup'
 import { useDispatch, useSelector } from 'react-redux'
 import {Toaster} from "react-hot-toast"
 import { getOtherUserThunk, getProfileUserThunk } from './store/slice/user/user.thunk'
-import ProtectedRoute from "./Components/ProtectedRoute"
+
 function App() {
   const dispatch = useDispatch()
   
@@ -20,7 +16,7 @@ function App() {
   return (
     <>
       <Toaster position='top-center' reverseOrder={false}/>
-      <Router>
+      {/* <Router>
         <Routes>
           <Route path="/" element={<ProtectedRoute>
             <Home />
@@ -28,7 +24,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
-      </Router>
+      </Router> */}
 
     </>
   )

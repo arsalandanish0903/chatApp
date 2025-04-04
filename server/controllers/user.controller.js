@@ -47,39 +47,44 @@ export const register = asyncHandler(async (req, res, next) => {
 })
 
 export const login = asyncHandler(async (req, res, next) => {
-    const { userName, password } = req.body
+    const { userName, password } = req.body;
+
     if (!userName || !password) {
-        return next(new errorHandler("Please Enter Valid userName or Password"))
+        return next(new errorHandler("Please Enter Valid userName or Password"));
     }
-    const user = await User.findOne({ userName })
+
+    const user = await User.findOne({ userName });
     if (!user) {
-        return next(new errorHandler("Please Enter Valid userName or Password"))
+        return next(new errorHandler("Please Enter Valid userName or Password"));
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password)
+    const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-        return next(new errorHandler("Please Enter Valid userName or Password"))
+        return next(new errorHandler("Please Enter Valid userName or Password"));
     }
 
-    const tokenData = {
-        _id: user._id
-    }
-    const token = jwt.sign(tokenData, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE})
+    const tokenData = { _id: user._id };
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE
+    });
 
-
+    // ✅ Set Cookie Correctly
     res.status(200)
-    .cookie("token", token, {
-        expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-    })
-    .json({
-        success: true,
-        responseData: {
-            user,
-            token
-        }
-    })
-})
+        .cookie("token", token, {
+            expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",  // ✅ Only secure in production
+            sameSite: "None",  // ✅ Needed for cross-site cookies
+        })
+        .json({
+            success: true,
+            responseData: {
+                user,
+                token
+            }
+        });
+});
+
 
 export const getProfile = asyncHandler(async (req, res, next) => {
     const userId = req.user._id
@@ -108,7 +113,6 @@ export const getOtherUser = asyncHandler(async (req, res, next) => {
     const otherUsers = await User.find({
         _id: { $ne: req.user?._id }
     })
-    console.log(req.user?._id);
     
     res.status(200).json({
         success: true,
